@@ -40,12 +40,16 @@ efficiently.
 #+END_abstract
 
 #+BEGIN_acknowledgments
-I would like to thank Ms. Jiao Yu.  We both contribute to this work.
-Ms. Yu worked on the particle filter and snapshot queries, while I
-focus on Kalman filter and continuous queries.
+I would like to thank Ms. Jiao Yu for her insightful discussion and
+contribution.  We both work on this work.  Ms. Yu worked on the
+particle filter and snapshot queries, while I focus on Kalman filter
+and continuous queries.
 
-In addition, I would also like to thank Dr. Ku for our weekly
-meetings.
+In addition, I would also like to thank Dr. Ku for his invaluable
+guidance during my research.  I learned how to think like a researcher
+and how to narrow down areas of focus during our weekly discussion.  I
+also greatly appreciate his patience for my really slow research
+progress.
 #+END_acknowledgments
 
 #+BEGIN_EXPORT latex
@@ -61,63 +65,61 @@ meetings.
   :CUSTOM_ID: sec:introduction
   :END:
 
-  Today most people spend a significant portion of their time daily in
+  Today most people spend a significant portion of their time in
   indoor spaces such as subway systems, office buildings, shopping
-  malls, convention centers, and many other structures.  In addition,
-  indoor spaces are becoming increasingly large and complex.  For
-  instance, the New York City Subway has 469 stations and contains 233
-  miles (375 km) of routes cite:wikipedia2016-new.  In 2014, the
-  subway system delivered over 1.75 billion rides, averaging
-  approximately 5.6 million rides on weekdays
-  cite:authority2014-subway.  Therefore, users will have more and more
-  demand for launching spatial queries for finding friends or Points
-  Of Interest (POI) in indoor places.  Moreover, users are usually
-  moving around when issuing queries.  Thus we need to properly
-  support indoor spatial queries \emph{continuously}, e.g., reporting
-  nearby friends in a mall when a user is shopping.  However, existing
-  spatial query evaluation techniques for outdoor environments (either
-  based on Euclidean distance or network distance)
+  malls, convention centers, and etc.  In addition, indoor spaces are
+  increasingly larger and more complex.  For instance, the New York
+  City Subway has 469 stations and 233 miles (375 km) of routes
+  cite:wikipedia2016-new.  In 2014, the subway system delivered over
+  1.75 billion rides, averaging approximately 5.6 million rides on
+  weekdays cite:authority2014-subway.  Therefore, users will have more
+  and more demand for launching spatial queries for finding friends or
+  Points Of Interest (POI) in indoor places.  Moreover, users are
+  usually moving around when issuing queries.  Thus we need to
+  properly support indoor spatial queries /continuously/, e.g.,
+  reporting nearby friends in a mall when a user is shopping.
+  However, existing spatial query evaluation techniques for outdoor
+  environments (based on either Euclidean distance or network
+  distance)
   cite:roussopoulos1995-nearest,hjaltason1999-distance,papadias2003-query,samet2008-scalable,lee2012-road
   cannot be applied in indoor spaces because these techniques assume
-  that user locations can be acquired from GPS signals or cellular
-  positioning, but the assumption does not hold in covered indoor
-  spaces.  Furthermore, indoor spaces are usually modelled differently
-  from outdoor spaces.  In indoor environments, user movements are
-  enabled or constrained by entities and topologies such as doors,
-  walls, and hallways.
+  that user locations can be acquired from GPS signals, which are not
+  available in indoor spaces.  Furthermore, indoor spaces are usually
+  modeled differently from outdoor spaces.  In indoor environment,
+  user movements are constrained by topology such as doors, walls, and
+  hallways.
 
   Radio Frequency Identification (RFID) technologies have become
   increasingly popular over the last decade with applications in areas
   such as supply chain management cite:santos2008-rfid, health care,
   and transportation.  In indoor environments, RFID is mainly employed
   to support track and trace applications.  Generally, RFID readers
-  are deployed in critical locations while objects carry RFID tags.
-  When a tag passes the detection range of a reader, the reader
+  are deployed in critical locations where objects carry RFID tags.
+  When a tag enters the detection range of a reader, the reader
   recognizes the presence of the tag and generates a record in the
-  back end database.  However, the raw data collected by RFID readers
+  backend database.  However, the raw data collected by RFID readers
   is inherently unreliable cite:jeffery2006-adaptive, with false
   negatives as a result of RF interference, limited detection range,
   tag orientation, and other environmental phenomena
   cite:welbourne2009-building.  In addition, readers cannot cover all
   areas of interest because of their high cost or privacy concerns.
-  Therefore, we cannot directly utilize RFID raw data to evaluate
-  commonly used spatial query types (e.g., range and \(k\)NN) for
-  achieving high accuracy results in indoor environments.  In
-  addition, several other types of wireless communication technologies
-  such as Wi-Fi and Bluetooth have been employed for indoor
-  positioning cite:anastasi2003-experimenting,bell2010-wifi.  However,
-  each aforementioned technology has considerable positioning
-  uncertainty.  Furthermore, Wi-Fi and Bluetooth are mainly utilized
-  for positioning individual users rather than supporting a
-  centralized indoor location tracking system.  It is too expensive to
-  attach Wi-Fi or Bluetooth transmitters ($5 per device) to monitored
-  objects.  Therefore, we focus on RFID in this research.
+  Therefore, with RFID raw data, we cannot provide reliable support
+  for commonly used spatial query types, e.g., range and \(k\)NN in
+  indoor environments.  Several other types of wireless communication
+  technologies such as WiFi and Bluetooth have been employed for
+  indoor positioning cite:anastasi2003-experimenting,bell2010-wifi.
+  However, each aforementioned technology has considerable positioning
+  uncertainty.  Furthermore, WiFi and Bluetooth are mainly utilized
+  for locating individual users rather than supporting a centralized
+  indoor location tracking system.  It is too expensive to attach WiFi
+  or Bluetooth transmitters ($5 per device) to monitored objects.
+  Therefore, we focus on RFID in this research.
 
   In this paper, we consider the setting of an indoor environment
   where a number of RFID readers are deployed in hallways.  Each user
   is attached with an RFID tag, which can be identified by a reader
-  when the user is within the detection range of the reader.  Given
-  the history of RFID raw readings from all the readers, we are in the
+  when the user enters the detection range of the reader.  Given the
+  history of RFID raw readings from all the readers, we are in the
   position to design a system that can efficiently answer indoor
   spatial queries.  We mainly focus on four types of spatial queries,
   range query, \(k\)NN query, continuous range query, and continuous
@@ -136,22 +138,19 @@ meetings.
 
   - We design the Bayesian filtering-based location inference methods
     as the basis for evaluating indoor spatial queries.
-
   - We propose two novel models, the indoor walking graph model and
     the anchor point indexing model, and an RFID-based system for
     tracking object locations in indoor environments.
-
   - Indoor spatial query evaluation algorithms for range, \(k\)NN,
     continuous range, and continuous \(k\)NN queries are developed
     based on the proposed system.
-
   - We demonstrate the efficiency and effectiveness of our approach by
     comparing the performance of our system with the symbolic
     model-based solution cite:yang2010-probabilistic through extensive
     simulations using real-world parameters.
 
   The rest of this paper is organized as follows.  In Section
-  [[#sec:related-work]], we survey previous works for indoor object
+  [[#sec:related-work]], we survey previous work for indoor object
   monitoring and spatial queries.  Background knowledge of particle
   filters and the Kalman filter is provided in Section
   [[#sec:preliminary]].  In Section [[#sec:system-design]], we introduce our
@@ -165,9 +164,6 @@ meetings.
   :CUSTOM_ID: sec:related-work
   :END:
 
-  In this section, we review previous work related to indoor spatial
-  queries and RFID data cleansing.
-
 ** Indoor Spatial Queries
    :PROPERTIES:
    :CUSTOM_ID: sec:indoor-spatial-queries
@@ -177,46 +173,48 @@ meetings.
    extensively studied both for Euclidean space
    cite:roussopoulos1995-nearest,hjaltason1999-distance and road
    networks cite:papadias2003-query,samet2008-scalable,lee2012-road.
-   However, due to the inherent differences in spatial characteristics,
+   However, due to the inherent difference in spatial characteristics,
    indoor spatial queries need different models and cannot directly
-   apply mature techniques from their outdoor counterparts.  Therefore,
-   indoor spatial queries are drawing more and more research attention
-   from industry and academia.  For answering continuous range queries
-   in indoor environments, cite:jensen2009-graph proposed using the
-   /positioning device deployment graph/ to represent the connectivity
-   of rooms and hallways from the perspective of positioning devices.
-   Basically, entities that can be accessed without having to be
-   detected by any positioning device are represented by one cell in
-   the graph, and edges connecting two cells in the graph represent the
-   positioning device(s) which separate them.  Based on the graph,
-   initial query results can be easily processed with the help of an
-   indexing scheme also proposed by the authors cite:yang2009-scalable.
-   Query results are returned in two forms: certain results and
-   uncertain results.  To reduce the workload of maintaining and
-   updating the query results, cite:yang2010-probabilistic further
-   proposed the concept of /critical devices/.  Only from the ENTER and
-   LEAVE observations of its critical devices can a query's results be
-   affected.  However, the probability model utilized in Yang's work is
+   borrow mature techniques from their outdoor counterparts.
+   Therefore, indoor spatial queries are drawing more and more
+   research attention from industry and academia.  To answer
+   continuous range queries in indoor environments,
+   cite:jensen2009-graph proposed using the /positioning device
+   deployment graph/ to represent the connectivity of rooms and
+   hallways from the perspective of positioning devices.  Basically,
+   entities that can be accessed without having to be detected by any
+   positioning device are represented by one cell in the graph, and
+   edges connecting two cells in the graph represent the positioning
+   device(s) which separate them.  Based on the graph, initial query
+   results can be easily processed with the help of an indexing scheme
+   also proposed in cite:yang2009-scalable.  Query results are
+   returned in two forms: certain results and uncertain results.  To
+   reduce the workload of maintaining and updating the query results,
+   cite:yang2010-probabilistic further proposed the concept of
+   /critical devices/.  Only from the ENTER and LEAVE observations of
+   the critical devices can a query's results be affected.  However,
+   the probability model utilized in cite:yang2010-probabilistic is
    very simple: a moving object is uniformly distributed over all the
    reachable locations constrained by its maximum speed in a given
-   indoor space.  This simple probability model is incapable of taking
-   advantage of the moving object's previous moving patterns, such as
-   direction and speed, which would make the location prediction more
-   reasonable and precise.  In addition, cite:yang2010-probabilistic
-   also addressed the problem of \(k\)NN queries over moving objects in
-   indoor spaces.  Unlike cite:li2008-lattice which defines nearest
-   neighbors by the minimal number of doors to go through, they
-   proposed a novel distance metric, minimum indoor walking distance,
-   as the underlying metric for indoor \(k\)NN queries.  Moreover,
+   indoor space.  This simplified probability model is incapable of
+   taking advantage of the moving object's previous moving patterns,
+   such as direction and speed, which would make the location
+   prediction more reasonable and precise.  In addition,
+   cite:yang2010-probabilistic also addressed the problem of \(k\)NN
+   queries over moving objects in indoor spaces.  Unlike
+   cite:li2008-lattice which defines nearest neighbors by the minimal
+   number of doors to go through, they proposed a novel distance
+   metric, i.e., minimum indoor walking distance, as the underlying
+   metric for indoor \(k\)NN queries.  Moreover,
    cite:yang2010-probabilistic provided the formal definition for
    Indoor Probabilistic Threshold \(k\)NN Query (PT\(k\)NN) as finding
-   a result set with \(k\) objects which have a higher probability than
-   the threshold probability \(T\).  Indoor distance-based pruning and
-   probability threshold-based pruning are proposed in
+   a result set with \(k\) objects which have a higher probability
+   than the threshold probability \(T\).  Indoor distance-based
+   pruning and probability threshold-based pruning are proposed in
    cite:yang2010-probabilistic to speed up PT\(k\)NN query processing.
-   Similarly, cite:yang2009-scalable employs the same simple
-   probabilistic model, thus suffering from deficiencies in probability
-   evaluation.
+   Similarly, cite:yang2009-scalable employs the same simplified
+   probabilistic model, thus suffering from deficiencies in
+   probability evaluation.
 
 ** RFID-Based Track and Trace
    :PROPERTIES:
@@ -228,54 +226,55 @@ meetings.
    electromagnetic challenge-and-response exchange of data
    cite:want2004-magic.  An RFID-based system consists of a large
    number of low-cost tags that are attached to objects, and readers
-   which can identify tags without a direct line-of-sight through RF
-   communications.  RFID technologies enable exceptional visibility to
+   which can identify tags through RF communications without a direct
+   line-of-sight.  RFID technologies enable exceptional visibility to
    support numerous track and trace applications in different fields
-   cite:yang2012-rfid.  However, the raw data collected by RFID readers
-   is inherently noisy and inconsistent
-   cite:sullivan2005-rfid,jeffery2006-adaptive.  Therefore, middle-ware
-   systems are required to correct readings and provide cleansed data
-   cite:jeffery2008-adaptive.  In addition to the unreliable nature of
-   RFID data streams, another limitation is that due to the high cost
-   of RFID readers, RFID readers are mostly deployed such that they
-   have disjoint activation ranges in the settings of indoor tracking.
+   cite:yang2012-rfid.  However, the raw data collected by RFID
+   readers is inherently noisy and inconsistent
+   cite:sullivan2005-rfid,jeffery2006-adaptive.  Therefore,
+   middle-ware systems are required to correct readings and provide
+   cleansed data cite:jeffery2008-adaptive.  In addition to the
+   unreliable nature of RFID data streams, another limitation is that
+   due to the high cost of RFID readers, RFID readers are mostly
+   deployed such that they have disjoint activation ranges in the
+   settings of indoor tracking.
 
    To overcome the above limitations, RFID data cleansing is a
    necessary step to produce consistent data to be utilized by
    high-level applications. cite:baba2014-handling proposed a
-   probabilistic distance-aware graph model to handle false negative in
-   RFID readings.  The main limitation is that their generative model
-   relies on the long tracking history to detect and possibly correct
-   RFID readings.  cite:tran2009-probabilistic used a sampling-based
-   method called particle filtering to infer clean and precise event
-   streams from noisy raw data produced by mobile RFID readers.  Three
-   enhancements are proposed in their work to make traditional particle
-   filter techniques scalable.  However, their work is mainly designed
-   for warehouse settings where objects remain static on shelves, which
-   is quite different from our setting where objects move around in a
-   building.  Therefore, their approach of adapting and applying
-   particle filters cannot be directly applied to our settings.
-   Another limitation is that they did not explore further utilization
-   of the output event streams for high-level
+   probabilistic distance-aware graph model to handle false negative
+   in RFID readings.  The main limitation is that their generative
+   model relies on the long tracking history to detect and possibly
+   correct RFID readings.  cite:tran2009-probabilistic used a
+   sampling-based method called particle filtering to infer clean and
+   precise event streams from noisy raw data produced by mobile RFID
+   readers.  Three enhancements are proposed in their work to make
+   traditional particle filter techniques scalable.  However, their
+   work is mainly designed for warehouse settings where objects remain
+   static on shelves, which is quite different from our setting where
+   objects move around in a building.  Therefore, their approach of
+   adapting and applying particle filters cannot be directly applied
+   to our settings.  Another limitation is that they did not explore
+   further utilization of the output event streams for high-level
    applications. cite:ku2013-bayesian employed a different sampling
    method called Markov Chain Monte Carlo (MCMC) to infer objects'
-   locations on shelves in warehouses.  Their method takes advantage of
-   the spatial and temporal redundancy of raw RFID readings, and also
-   considers environmental constraints such as the capacity of shelves,
-   to make the sampling process more precise.  Their work also focuses
-   on warehouse settings; thus it is not suitable for our problem of
-   general indoor settings.
+   locations on shelves in warehouses.  Their method takes advantage
+   of the spatial and temporal redundancy of raw RFID readings, and
+   also considers environmental constraints such as the capacity of
+   shelves, to make the sampling process more precise.  Their work
+   also focuses on warehouse settings; thus it is not suitable for our
+   problem of general indoor settings.
    cite:re2008-event,welbourne2008-cascadia,letchner2009-access target
-   settings such as office buildings, which are similar to our problem.
-   They use particle filters in their preprocessing module to generate
-   probabilistic streams, on which complex event queries such as "Is
-   Joe meeting with Mary in Room 203?" can be processed.  However,
-   their goal is to answer event queries instead of spatial queries,
-   which is different from the goal of this research.
-   cite:geng2014-indoor also proposed using particle filters for indoor
-   tracing with RFID.  however, they assumed a grid layout of RFID
-   readers instead of only along the hallways.  Thus their algorithms
-   cannot be applied to our problem.
+   settings such as office buildings, which are similar to our
+   problem.  They use particle filters in their preprocessing module
+   to generate probabilistic streams, on which complex event queries
+   such as "Is Joe meeting with Mary in Room 203?" can be processed.
+   However, their goal is to answer event queries instead of spatial
+   queries, which is different from the goal of this research.
+   cite:geng2014-indoor also proposed using particle filters for
+   indoor tracing with RFID.  however, they assumed a grid layout of
+   RFID readers instead of only along the hallways.  Thus their
+   algorithms cannot be applied to our problem.
 
 * Preliminary
   :PROPERTIES:
@@ -289,6 +288,7 @@ meetings.
 
   #+CAPTION: Symbolic Notations
   #+NAME: tab:notation
+  |-------------+------------------------------------------------------------------------------------|
   | Symbol      | Meaning                                                                            |
   |-------------+------------------------------------------------------------------------------------|
   | \(q\)       | An indoor query point                                                              |
@@ -315,18 +315,17 @@ meetings.
    :CUSTOM_ID: sec:kalman-filter
    :END:
 
-   The Kalman filter is an optimal recursive data processing
-   algorithm, which combines a system's dynamics model, known control
-   inputs, and observed measurements to form an optimal estimate of
-   system states.  Note here the control inputs and observed
-   measurements are not deterministic, but rather with a certain
-   degree of uncertainty.  The Kalman filter works by making a
-   prediction of the future system state, obtaining measurements for
-   that future state, and adjusting its estimate by moderating the
-   difference between the two.  The result of the Kalman filter is a
-   new probability distribution of system state which has reduced its
-   uncertainty to be less than either the original predicted values or
-   measurements alone.
+   Kalman filter is an optimal recursive data processing algorithm,
+   which combines a system's dynamics model, known control inputs, and
+   observed measurements to form an optimal estimate of system states.
+   Note here the control inputs and observed measurements are not
+   deterministic, but rather with a certain degree of uncertainty.
+   The Kalman filter works by making a prediction of the future system
+   state, obtaining measurements for that future state, and adjusting
+   its estimate by moderating the difference between the two.  The
+   result of the Kalman filter is a new probability distribution of
+   system state which has reduced its uncertainty to be less than
+   either the original predicted values or measurements alone.
 
    To help readers better understand how the Kalman filter works for
    location estimation, we use a simple example of one dimensional
@@ -442,6 +441,11 @@ meetings.
   /anchor point indexing model/.  We will elaborate the function of
   each module and model in the following subsections.
 
+  #+CAPTION: Overall system structure
+  #+NAME: fig:overall
+  #+ATTR_LaTeX: :width .8\textwidth
+  [[file:img/system-design.pdf]]
+
   Figure [[fig:overall]] shows the overall structure of our system design.
   Raw readings are first fed into and processed by the event-driven
   raw data collector module, which then provides aggregated readings
@@ -456,11 +460,6 @@ meetings.
   table, and passes the hash table to the query evaluation module.  At
   last, the query evaluation module answers registered queries based
   on the hash table that contains filtered data.
-
-  #+CAPTION: Overall system structure
-  #+NAME: fig:overall
-  #+ATTR_LaTeX: :width .8\textwidth
-  [[file:img/system-design.pdf]]
 
 ** Event-Driven Raw Data Collector
    :PROPERTIES:
@@ -712,12 +711,11 @@ meetings.
     distribution.  From line 6 to 11, we assume that objects rarely
     enter the same room more than once.  Suppose there are \(m\) rooms
     from \(d_1\) to \(d_2\), then there are \(m+1\) different
-    predictions
-    \(\hat{x}_{2^-}=\hat{x}_1+v*(t_2-t_1-i*\mu_{t_{room}})\) where
-    \(i=0,\ldots,m\) represents the number of rooms the object entered
-    during \(t_1\) to \(t_2\).  Note that we simplify
-    \(\hat{x}_{2^-}\) by replacing \(t_{room}\) with its mean value
-    \(\mu_{t_{room}}\).
+    predictions \(\hat{x}_{2^-} = \hat{x}_1 + v * (t_2 - t_1-i *
+    \mu_{t_{room}})\) where \(i=0,\ldots,m\) represents the number of
+    rooms the object entered during \(t_1\) to \(t_2\).  Note that we
+    simplify \(\hat{x}_{2^-}\) by replacing \(t_{room}\) with its mean
+    value \(\mu_{t_{room}}\).
 
     When the observation at \(t_2\) is made, we combine the
     observation with only reasonable predictions to get a final
@@ -742,7 +740,6 @@ meetings.
     function from the current anchor point to its adjacent point, and
     store the discrete probability of the object's location being on a
     certain anchor point to =APtoObjHT=.
-
     #+BEGIN_EXPORT latex
     \begin{algorithm}[!t]
       \caption{Kalman Filter(\(C\))}
@@ -870,6 +867,39 @@ meetings.
     #+ATTR_LaTeX: :width .5\textwidth
     [[file:img/range-query.pdf]]
 
+    In Figure [[fig:range-query]], query \(q\) is a rectangle which
+    intersects with both the hallway and room \(R_1\), but does not
+    directly contain any anchor point.  We denote the left part of
+    \(q\) which overlaps with the hallway as \(q_h\), and the right
+    part which overlaps with \(R_1\) as \(q_r\).  We first look at how
+    to evaluate the hallway part of \(q\).  The anchor points which
+    fall within \(q\)'s vertical range are marked red in Figure
+    [[fig:range-query]], and should be considered for answering \(q_h\).
+    Since in our assumptions no differentiation along the width of
+    hallways can be inferred about an object's true location, objects
+    in hallways can be anywhere along the width of hallways with equal
+    probability.  With this assumption, the ratio of \(w_{q_h}\) (the
+    width of \(q_h\)) and \(w_h\) (the width of the hallway) will
+    indicate the probability of objects in hallways within the
+    vertical range of \(q\) being in \(q_h\).  For example, if an
+    object \(o_i\) is in the hallway and in the vertical range of
+    \(q\) with probability \(p_1\), which can be calculated by summing
+    up the probabilities indexed by the red anchor points, then the
+    probability of this object being in \(q_h\) is
+    \(p_i(o_i.location\in q_h)=p_1*w_{q_h}/w_h\).
+
+    Then we look at the room part of \(q\).  The anchor points within
+    room \(R_1\) should represent the whole 2D area of \(R_1\), and
+    again we assume objects inside rooms are uniformly distributed.
+    Similar to the hallway situation, the ratio of \(q_r\)'s area to
+    \(R_1\)'s area is the probability of an object in \(R_1\)
+    happening to be in \(q_r\).  For example, if \(o_i\)'s probability
+    of being in \(R_1\) is \(p_2\), then its probability of being in
+    \(q_r\) is \(p_i(o_i.location\in q_r)=p_2*Area_{q_r}/Area_{R_1}\),
+    where \(p_2\) can be calculated by summing up the indexed
+    probabilities of \(o_i\) on all the anchor points inside \(R_1\)
+    and \(Area_i\) stands for the size of a given region \(i\).
+
     #+BEGIN_EXPORT latex
     \begin{algorithm}[!t]
       \algsetup{linenosize=\small,linenodelimiter=.}
@@ -896,39 +926,6 @@ meetings.
       \end{algorithmic}
     \end{algorithm}
     #+END_EXPORT
-
-    In Figure [[fig:range-query]], query \(q\) is a rectangle which
-    intersects with both the hallway and room \(R_1\), but does not
-    directly contain any anchor point.  We denote the left part of
-    \(q\) which overlaps with the hallway as \(q_h\), and the right
-    part which overlaps with \(R_1\) as \(q_r\).  We first look at how
-    to evaluate the hallway part of \(q\).  The anchor points which
-    fall within \(q\)'s vertical range are marked red in Figure
-    [[fig:range-query]], and should be considered for answering
-    \(q_h\).  Since in our assumptions no differentiation along the
-    width of hallways can be inferred about an object's true location,
-    objects in hallways can be anywhere along the width of hallways
-    with equal probability.  With this assumption, the ratio of
-    \(w_{q_h}\) (the width of \(q_h\)) and \(w_h\) (the width of the
-    hallway) will indicate the probability of objects in hallways
-    within the vertical range of \(q\) being in \(q_h\).  For example,
-    if an object \(o_i\) is in the hallway and in the vertical range
-    of \(q\) with probability \(p_1\), which can be calculated by
-    summing up the probabilities indexed by the red anchor points,
-    then the probability of this object being in \(q_h\) is
-    \(p_i(o_i.location\in q_h)=p_1*w_{q_h}/w_h\).
-
-    Then we look at the room part of \(q\).  The anchor points within
-    room \(R_1\) should represent the whole 2D area of \(R_1\), and
-    again we assume objects inside rooms are uniformly distributed.
-    Similar to the hallway situation, the ratio of \(q_r\)'s area to
-    \(R_1\)'s area is the probability of an object in \(R_1\)
-    happening to be in \(q_r\).  For example, if \(o_i\)'s probability
-    of being in \(R_1\) is \(p_2\), then its probability of being in
-    \(q_r\) is \(p_i(o_i.location\in q_r)=p_2*Area_{q_r}/Area_{R_1}\),
-    where \(p_2\) can be calculated by summing up the indexed
-    probabilities of \(o_i\) on all the anchor points inside \(R_1\)
-    and \(Area_i\) stands for the size of a given region \(i\).
 
     Algorithm ref:alg:range-query summarizes the above procedures.  In
     line 15, we define the multiply operation for =resultSet= to
@@ -964,7 +961,6 @@ meetings.
     set is the probability of \(o_i\) being in the \(k\)NN result set
     of \(q\).  The algorithm of the indoor \(k\)NN query evaluation
     method in our work is shown in Algorithm ref:alg:knn.
-
     #+BEGIN_EXPORT latex
     \begin{algorithm}[!t]
       \algsetup{linenosize=\small,linenodelimiter=.}
@@ -1450,7 +1446,7 @@ meetings.
     methods when the physical constraints limit readers' activation
     ranges.
 
-*** COMMENT Continuous Query Performance Evaluation
+*** Continuous Query Performance Evaluation
 
     The previous subsections show the performance of snapshot queries,
     i.e., queries at a specific time stamp.  This subsection
@@ -1498,7 +1494,7 @@ meetings.
     proposed algorithms with different number of changes.  It is clear
     from the figure that our algorithms' accuracy is not heavily
     influenced by the change volume, although there are some
-    fluctuations.  Furthermore, Figure [[fig:cont-duration]] shows the
+    fluctuations.  Furthermore, Figure ref:fig:cont-duration shows the
     accuracy of our algorithms against the query duration.  Once the
     system is stable, the accuracy of our algorithms is not affected
     by the duration of query time.

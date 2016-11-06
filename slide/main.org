@@ -1,0 +1,67 @@
+#+TITLE: RFID-Based Indoor Spatial Query Evaluation with Bayesian Filtering Techniques
+#+AUTHOR: Zhitao Gong
+#+EMAIL: gong@auburn.edu
+#+STARTUP: hideblocks showcontent
+#+MACRO: img \(\vcenter{\hbox{\includegraphics[$1]{$2}}}\)
+#+SETUPFILE: setup.org
+#+LATEX_HEADER: \addbibresource{~/Documents/ms/thesis/thesis.bib}
+
+#+LATEX_CLASS: beamer
+#+LATEX_CLASS_OPTIONS: [xcolor={usenames,dvipsnames}]
+#+BEAMER_THEME: default
+#+COLUMNS: %45ITEM %10BEAMER_env(Env) %10BEAMER_act(Act) %4BEAMER_col(Col) %8BEAMER_opt(Opt)
+
+* Introduction
+
+** Motivation
+
+   *Goal* -- Cleanse noisy RFID readings for indoor spatial queries.
+
+** Existing Solutions
+
+   - cite:jensen2009-graph
+   - cite:yang2009-scalable
+   - cite:yang2010-probabilistic
+   - cite:ku2013-bayesian
+
+* Preliminary
+
+** Particle Filter
+
+** Kalman Filter
+
+* System
+
+** Data Collector
+
+** Optimization Model
+
+** Bayesian Filter
+
+** Evaluation Module
+
+* Experiment
+
+** Query Window Size
+
+** \(k\)
+
+** Number of Particles
+
+** Number of Moving Objects
+
+** Activation Range
+
+** Change of Volume
+
+** Query Duration
+
+* Discussion
+
+** Summary
+
+** Contribution
+
+** Limitation
+
+** Future Work

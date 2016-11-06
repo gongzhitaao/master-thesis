@@ -1,0 +1,14 @@
+#+OPTIONS: ^:{} toc:nil H:2
+#+LATEX_HEADER: \usepackage{svg}
+
+#+LATEX_HEADER: \usepackage[backend=biber,style=alphabetic]{biblatex}
+
+#+LATEX_HEADER: \fvset{fontsize=\footnotesize}
+#+LATEX_HEADER: \fvset{frame=lines}
+#+LATEX_HEADER: \fvset{framesep=5pt}
+
+#+LATEX_HEADER: \AtBeginSection[]{\begin{frame}<beamer>\frametitle{Outline}\tableofcontents[currentsection]\end{frame}}
+#+LATEX_HEADER: \beamertemplatenavigationsymbolsempty
+#+LATEX_HEADER: \setbeamertemplate{footline}[frame number]
+
+#+LATEX_HEADER: \DeclareUnicodeCharacter{200B}{}
