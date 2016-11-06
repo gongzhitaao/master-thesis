@@ -1,0 +1,31 @@
+#+TITLE: RFID-Based Indoor Spatial Query Evaluation with Bayesian Filtering Techniques
+#+AUTHOR: Zhitao Gong
+#+OPTIONS: toc:nil
+
+#+BEGIN_abstract
+
+People spend a significant amount of time in indoor spaces (e.g.,
+office buildings, subway systems, etc.) in their daily lives.
+Therefore, it is important to develop efficient indoor spatial query
+algorithms for supporting various location-based applications.
+However, indoor spaces differ from outdoor spaces because users have
+to follow the indoor floor plan for their movements.  In addition,
+positioning in indoor environments is mainly based on sensing devices
+(e.g., RFID readers) rather than GPS devices.  Consequently, we cannot
+apply existing spatial query evaluation techniques devised for outdoor
+environments for this new challenge.  Because Bayesian filtering
+techniques can be employed to estimate the state of a system that
+changes over time using a sequence of noisy measurements made on the
+system, in this research, we propose the Bayesian filtering-based
+location inference methods as the basis for evaluating indoor spatial
+queries with noisy RFID raw data.  Furthermore, two novel models,
+indoor walking graph model and anchor point indexing model, are
+created for tracking object locations in indoor environments.  Based
+on the inference method and tracking models, we develop innovative
+indoor range and \(k\) nearest neighbor (\(k\)NN) query algorithms.
+We validate our solution through extensive simulations with real-world
+parameters.  Our experimental results show that the proposed
+algorithms can evaluate indoor spatial queries effectively and
+efficiently.
+
+#+END_abstract
