@@ -32,11 +32,49 @@
 
 * System
 
-** Data Collector
+** Overview
+
+   [[file:img/system-design.pdf]]
+
+   - Data Collector :: generates ground truth data.
+   - Query Optimization :: filters out /non-candidates/.
+   - Bayesian Filters :: cleanse the noisy RFID data.
+   - Query Evaluation :: answers spatial queries.
+
+** Event-Driven Data Collector
+
+   [[file:img/data-collector.pdf]]
+
+   The data collected is
+   \[P1: (t_1, r_1), (t_2, \text{NIL}), (t_3, r_2), (t_4, \text{NIL}),
+   \dots\]
 
 ** Optimization Model
 
-** Bayesian Filter
+   #+ATTR_LaTeX: :width .7\textwidth
+   [[file:img/uncertainty.pdf]]
+
+   We are pruning /non-candidates/ by their uncertainty range.
+   - \tikz\fill[blue!20] circle [radius=.5em]; denotes the reader
+     range.
+   - \tikz\fill[green!20] circle [radius=.5em]; denotes the
+     uncertainty range.
+
+** Optimization Model -- Range Query
+
+   #+ATTR_LaTeX: :width .5\textwidth
+   [[file:img/range-filter.pdf]]
+
+   The candidate set is \(\{o_1, o_2, o_3\}\)
+
+** Optimization Model -- \(k\)NN Query
+
+   #+ATTR_LaTeX: :width .5\textwidth
+   [[file:img/knn-filter.pdf]]
+
+   The candidate set for 2NN query \(\{o_1, o_2, o_3\}\).
+
+** Bayesian Filtering -- Particle Filter
 
 ** Evaluation Module
 

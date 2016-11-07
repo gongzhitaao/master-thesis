@@ -1,5 +1,7 @@
 #+OPTIONS: ^:{} toc:nil H:2
 #+LATEX_HEADER: \usepackage{svg}
+#+LATEX_HEADER: \usepackage{tikz}
+#+LATEX_HEADER: \usepackage{amsmath}
 
 #+LATEX_HEADER: \usepackage[backend=biber,style=alphabetic]{biblatex}
 
