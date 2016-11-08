@@ -46,7 +46,7 @@
    [[file:img/data-collector.pdf]]
 
    The data collected is
-   \[P1: (t_1, r_1), (t_2, \text{NIL}), (t_3, r_2), (t_4, \text{NIL}),
+   \[o_1: (t_1, r_1), (t_2, \text{NIL}), (t_3, r_2), (t_4, \text{NIL}),
    \dots\]
 
 ** Optimization Model
@@ -74,32 +74,99 @@
 
    The candidate set for 2NN query \(\{o_1, o_2, o_3\}\).
 
-** Bayesian Filtering -- Particle Filter
+** Bayesian Filtering
+
+*** Dummy                                                             :BMCOL:
+    :PROPERTIES:
+    :BEAMER_col: 0.5
+    :END:
+
+    [[file:img/bayesian-filter.pdf]]
+
+*** Dummy                                                             :BMCOL:
+    :PROPERTIES:
+    :BEAMER_col: 0.5
+    :END:
+
+    1. Object are restricted on walking graph for simplicity.
+    2. Each object/particle in the candidate set is mapped to the
+       nearest /anchor point/.  Information associated with each
+       anchor point \(\{(o_1, 0.14), (o_2, 0.03), \dots\}\)
 
 ** Evaluation Module
 
+   #+ATTR_LaTeX: :width .9\textwidth
+   [[file:img/evaluation.pdf]]
+
 * Experiment
 
-** Query Window Size
+** Range Query Window Size
 
-** \(k\)
+   1. KL value lower is better.
+   2. Query window size is the ratio of areas between query window and
+      totally environment.
+
+   #+ATTR_LaTeX: :width .7\textwidth
+   [[file:img/kl-w.pdf]]
+
+** \(k\) in \(k\)NN
+
+   1. Hit rate higher is better.
+   2. \(k\) is the number of nearest neighbors.
+
+   #+ATTR_LaTeX: :width .7\textwidth
+   [[file:img/hit-k.pdf]]
 
 ** Number of Particles
 
+   1. KL value lower is better.
+   2. This parameter only applies to particle filter.
+
+   #+ATTR_LaTeX: :width .7\textwidth
+   [[file:img/kl-p.pdf]]
+
 ** Number of Moving Objects
 
-** Activation Range
+   1. KL value lower is better.
+   2. Total number of objects in the environment.
+
+   #+ATTR_LaTeX: :width .7\textwidth
+   [[file:img/kl-n.pdf]]
+
+** Detection Range
+
+   1. KL value lower is better.
+   2. The detection range of each reader.
+
+   #+ATTR_LaTeX: :width .7\textwidth
+   [[file:img/kl-r.pdf]]
 
 ** Change of Volume
 
+   Suppose \(t_1\) the result set is \(\{o_1, o_2, o_3\}\), and
+   \(t_2\) the result changes to \(\{o_1, o_2, o_4\}\), then the
+   change volume is 2.
+
+   #+ATTR_LaTeX: :width .7\textwidth
+   [[file:img/cont-kl-n.pdf]]
+
 ** Query Duration
+
+   Measure how stable our algorithm is.
+
+   #+ATTR_LaTeX: :width .7\textwidth
+   [[file:img/cont-kl-t.pdf]]
 
 * Discussion
 
 ** Summary
 
-** Contribution
-
-** Limitation
+   1. We designed Bayesian-filter algorithms for RFID data cleansing.
+   2. We propose indoor walking graph model and anchor point model to
+      simplify the filter process.
+   3. We propose two metrics to evaluate continuous queries.
+   4. Through extensive experiment on range query and \(k\)NN, we
+      demonstrate the effectiveness of our solutions compared with
+      symbolic-model.
 
 ** Future Work

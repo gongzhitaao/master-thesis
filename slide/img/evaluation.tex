@@ -1,0 +1,30 @@
+\documentclass[crop,tikz,border=2px]{standalone}
+\usepackage{tikzsymbols}
+\usetikzlibrary{calc,arrows,positioning}
+\begin{document}
+\begin{tikzpicture}[remember picture,
+  myrect/.style={draw,rounded corners,rectangle,text width=3.4cm,text centered},
+  arrow/.style={->,>=stealth',thick,shorten <=2pt,shorten >=2pt}]
+
+  \node[fill=blue!10,rounded corners] {
+    \begin{tikzpicture}
+      \node[myrect] (qry) {Answer range query/\(k\)NN query};
+      \node[myrect] (i1) [below=of qry] {Query result\\\(\{(o_1, 0.12), (o_2, 0.45)\}\)};
+      \node[myrect] (i2) [right=of i1] {Ground truth\\\(\{o_1, o_2, o_3\}\)};
+      \coordinate (mid) at ($(i1)!0.5!(i2)$);
+      \node[myrect,text width=2cm] (eval) [below=of mid] {Evaluate};
+      \node (out) [below=of eval] {score};
+
+      \draw[arrow] (qry) -- (i1);
+      \draw[arrow] (i1) -- (eval);
+      \draw[arrow] (i2) -- (eval);
+      \draw[arrow] (eval) -- (out);
+    \end{tikzpicture}
+  };
+
+  \node[myrect,text width=5cm] (i0) [above=of qry]
+  {Filtered result\\\(\{(o_1, 0.12), (o_2, 0.45), (o_4, 0.1)\}\)};
+  \draw[arrow] (i0) -- (qry);
+
+\end{tikzpicture}
+\end{document}
