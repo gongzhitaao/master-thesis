@@ -47,8 +47,8 @@ and continuous queries.
 
 In addition, I would also like to thank Dr. Ku for his invaluable
 guidance during my research.  I learned how to think like a researcher
-and how to narrow down areas of focus during our weekly discussion.  I
-also greatly appreciate his patience for my really slow research
+and how to narrow down areas of focus through our weekly discussion.
+I also greatly appreciate his patience for my really slow research
 progress.
 #+END_acknowledgments
 

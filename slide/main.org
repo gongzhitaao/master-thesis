@@ -15,20 +15,16 @@
 
 ** Motivation
 
-   *Goal* -- Cleanse noisy RFID readings for indoor spatial queries.
+   *Goal* -- Cleanse noisy RFID readings for indoor location service.
 
-** Existing Solutions
-
-   - cite:jensen2009-graph
-   - cite:yang2009-scalable
-   - cite:yang2010-probabilistic
-   - cite:ku2013-bayesian
-
-* Preliminary
-
-** Particle Filter
-
-** Kalman Filter
+   - People spend lots of time indoor.
+   - GPS is unavailable.
+   - RFID receiver is cheaper
+   - RFID raw readings are noisy, e.g., false negative readings.
+   - Existing solutions do not fit our problem, e.g., static objects
+     cite:baba2014-handling, grid-layout setting cite:geng2014-indoor,
+     event stream queries cite:re2008-event,welbourne2008-cascadia,
+     etc.
 
 * System
 
@@ -93,6 +89,32 @@
        nearest /anchor point/.  Information associated with each
        anchor point \(\{(o_1, 0.14), (o_2, 0.03), \dots\}\)
 
+** Bayesian Filtering -- Particle Filter
+
+   [[file:img/pf0.pdf]]
+
+** Bayesian Filtering -- Particle Filter
+
+   [[file:img/pf1.pdf]]
+
+** Bayesian Filtering -- Particle Filter
+
+   [[file:img/pf2.pdf]]
+
+** Bayesian Filtering -- Particle Filter
+
+   [[file:img/pf3.pdf]]
+
+** Bayesian Filtering -- Particle Filter
+
+   [[file:img/pf4.pdf]]
+
+** Bayesian Filtering -- Particle Filter
+
+   [[file:img/pf5.pdf]]
+
+** Bayesian Filtering -- Kalman Filter
+
 ** Evaluation Module
 
    #+ATTR_LaTeX: :width .9\textwidth
@@ -100,11 +122,24 @@
 
 * Experiment
 
+** Default Values
+
+   #+ATTR_LaTeX: :align l|r
+   |--------------------------+----------------|
+   | Parameters               | Default Values |
+   |--------------------------+----------------|
+   | Number of particles      |             64 |
+   | Query window size        |             2% |
+   | Number of moving objects |            200 |
+   | \(k\)                    |              3 |
+   | Activation range         |       2 meters |
+   |--------------------------+----------------|
+
 ** Range Query Window Size
 
    1. KL value lower is better.
    2. Query window size is the ratio of areas between query window and
-      totally environment.
+      total environment.
 
    #+ATTR_LaTeX: :width .7\textwidth
    [[file:img/kl-w.pdf]]
@@ -165,8 +200,10 @@
    2. We propose indoor walking graph model and anchor point model to
       simplify the filter process.
    3. We propose two metrics to evaluate continuous queries.
-   4. Through extensive experiment on range query and \(k\)NN, we
-      demonstrate the effectiveness of our solutions compared with
-      symbolic-model.
+   4. Extensive experiment demonstrates the effectiveness of our
+      solutions compared with symbolic model.
 
 ** Future Work
+
+   1. Test on real-world data.
+   2. Experiment with more diverse environment settings.

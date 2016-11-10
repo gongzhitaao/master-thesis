@@ -1,0 +1,61 @@
+\documentclass[crop,tikz,border=2px]{standalone}
+\usetikzlibrary{arrows,positioning,patterns}
+\usepackage{pgfplots}
+\usepackage{tikzsymbols}
+\pgfplotsset{compat=newest}
+
+\begin{filecontents}{edge.dat}
+  x y
+  0 0.5
+  6.5 0.5
+
+  0 2.5
+  6.5 2.5
+
+  2 0.5
+  2 2.5
+
+  4.5 0.5
+  4.5 2.5
+\end{filecontents}
+\begin{filecontents}{wall.dat}
+  x y
+  0 1
+  1.5 1
+  1.5 2
+  0 2
+  0 1
+
+  2.5 1
+  4 1
+  4 2
+  2.5 2
+  2.5 1
+
+  5 1
+  6.5 1
+  6.5 2
+  5 2
+  5 1
+\end{filecontents}
+
+\begin{document}
+\begin{tikzpicture}[
+  wall/.style={rectangle,thin,minimum width=1.5cm,minimum
+    height=1cm,pattern=north west lines,pattern color=blue!20},
+  reader/.style={circle,radius=0.5,fill=blue!10},
+  walkingedge/.style={dashed,thin},
+  timeline/.style={->,>=stealth',thick,shorten <=2pt,shorten >=2pt}]
+  \begin{axis}[xtick=\empty,ytick=\empty,ymin=0,ymax=3,xmin=0,xmax=6.5,
+    enlargelimits=true,hide axis,axis equal image]
+    \fill [reader] (axis cs:2,2.5) circle;
+
+    \draw (axis cs:0,0) rectangle (axis cs:6.5,3);
+    \addplot [wall] table[x=x, y=y] {wall.dat};
+    \addplot [walkingedge] table [x=x, y=y] {edge.dat};
+
+    \node at (1,2.5) {\Strichmaxerl[][54][28]};
+
+  \end{axis}
+\end{tikzpicture}
+\end{document}
