@@ -1,4 +1,4 @@
-AU Master Thesis [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/gongzhitaao/orgcss/blob/master/LICENSE)
+AU Master Thesis [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/gongzhitaao/master-thesis/blob/master/LICENSE)
 ======
 
 ## Contents ##
