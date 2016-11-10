@@ -1,4 +1,4 @@
-#+TITLE: RFID-Based Indoor Spatial Query Evaluation with Bayesian Filtering Techniques
+#+TITLE: RFID Data Cleansing by Bayesian Filtering
 #+AUTHOR: Zhitao Gong
 #+EMAIL: gong@auburn.edu
 #+STARTUP: hideblocks showcontent
@@ -72,48 +72,80 @@
 
 ** Bayesian Filtering
 
-*** Dummy                                                             :BMCOL:
-    :PROPERTIES:
-    :BEAMER_col: 0.5
-    :END:
-
-    [[file:img/bayesian-filter.pdf]]
-
-*** Dummy                                                             :BMCOL:
-    :PROPERTIES:
-    :BEAMER_col: 0.5
-    :END:
-
-    1. Object are restricted on walking graph for simplicity.
-    2. Each object/particle in the candidate set is mapped to the
-       nearest /anchor point/.  Information associated with each
-       anchor point \(\{(o_1, 0.14), (o_2, 0.03), \dots\}\)
+   #+ATTR_LaTeX: :width .8\textwidth
+   [[file:img/bayesian-filter.pdf]]
 
 ** Bayesian Filtering -- Particle Filter
+
+   We want to track the object.
 
    [[file:img/pf0.pdf]]
 
 ** Bayesian Filtering -- Particle Filter
 
+   Generate random guesses, i.e., particles.
+
    [[file:img/pf1.pdf]]
 
 ** Bayesian Filtering -- Particle Filter
+
+   Particles that explain the observation well get larger weights.
 
    [[file:img/pf2.pdf]]
 
 ** Bayesian Filtering -- Particle Filter
 
+   Resample /good/ particles to keep population size.
+
    [[file:img/pf3.pdf]]
 
 ** Bayesian Filtering -- Particle Filter
+
+   In case of a false negative, predict with particles.
 
    [[file:img/pf4.pdf]]
 
 ** Bayesian Filtering -- Particle Filter
 
+   Align particles to the nearest anchor point.
+
    [[file:img/pf5.pdf]]
 
 ** Bayesian Filtering -- Kalman Filter
+
+   We want to track the object.
+
+   [[file:img/kf0.pdf]]
+
+** Bayesian Filtering -- Kalman Filter
+
+   Each reading is an observation.
+
+   [[file:img/kf1.pdf]]
+
+** Bayesian Filtering -- Kalman Filter
+
+   We have a new observation and guess from the past.
+
+   [[file:img/kf2.pdf]]
+
+** Bayesian Filtering -- Kalman Filter
+
+   We combine these two to form an adjusted guess.
+
+   [[file:img/kf3.pdf]]
+
+** Bayesian Filtering -- Kalman Filter
+
+   In case of a false negative, predict from pass guess.
+
+   [[file:img/kf4.pdf]]
+
+** Bayesian Filtering -- Kalman Filter
+
+   Assign /normalized/ probability to anchors points.
+
+   [[file:img/kf5.pdf]]
 
 ** Evaluation Module
 

@@ -1,5 +1,5 @@
 \documentclass[crop,tikz,border=2px]{standalone}
-\usetikzlibrary{arrows,positioning,patterns}
+\usetikzlibrary{arrows,positioning,patterns,scopes}
 \usepackage{pgfplots}
 \usepackage{tikzsymbols}
 \pgfplotsset{compat=newest}
@@ -41,12 +41,12 @@
 
 \begin{document}
 \begin{tikzpicture}[
-  wall/.style={rectangle,thin,minimum width=1.5cm,minimum
+  wall/.style={draw,rectangle,thin,minimum width=1.5cm,minimum
     height=1cm,pattern=north west lines,pattern color=blue!20},
   reader/.style={circle,radius=0.5,fill=blue!10},
   walkingedge/.style={dashed,thin},
   timeline/.style={->,>=stealth',thick,shorten <=2pt,shorten >=2pt}]
-  \begin{axis}[xtick=\empty,ytick=\empty,ymin=0,ymax=3,xmin=0,xmax=6.5,
+  \begin{axis}[xtick=\empty,ytick=\empty,ymin=-0.6,ymax=3,xmin=0,xmax=6.5,
     enlargelimits=true,hide axis,axis equal image]
     \fill [reader] (axis cs:2,2.5) circle;
 
@@ -65,6 +65,12 @@
 
     \node at (1,2.5) {\Strichmaxerl[][54][28]};
 
+    \node (wall) [wall,minimum width=0.3cm, minimum height=0.15cm, inner sep=0] at (0.16,-0.3) {};
+    \node [right=0.1mm of wall] {\tiny Wall};
+    \node (reader) [reader,minimum width=0.3cm] at (1.5,-0.3) {};
+    \node [right=0.1mm of reader] {\tiny Reader};
+    \node (particle) [circle,fill=gray,inner sep=0,minimum size=2pt] at (3,-0.3) {};
+    \node [right=0.1mm of particle] {\tiny Particle};
   \end{axis}
 \end{tikzpicture}
 \end{document}
