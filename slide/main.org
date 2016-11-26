@@ -4,7 +4,7 @@
 #+STARTUP: hideblocks showcontent
 #+MACRO: img \(\vcenter{\hbox{\includegraphics[$1]{$2}}}\)
 #+SETUPFILE: setup.org
-#+LATEX_HEADER: \addbibresource{~/Documents/ms/thesis/thesis.bib}
+#+LATEX_HEADER: \addbibresource{~/Documents/master-thesis/thesis/thesis.bib}
 
 #+LATEX_CLASS: beamer
 #+LATEX_CLASS_OPTIONS: [xcolor={usenames,dvipsnames}]
@@ -25,6 +25,40 @@
      cite:baba2014-handling, grid-layout setting cite:geng2014-indoor,
      event stream queries cite:re2008-event,welbourne2008-cascadia,
      etc.
+
+** Spatial Queries
+
+   Conventional definition
+
+   - Range query :: Decide the objects that lie in a given range.
+   - \(k\)-nearest neighbor query :: Decide the \(k\) nearest objects
+        w.r.t a given query point.
+
+
+   Probabilistic interpretation
+
+   - Range query :: Decide the objects that lie in a given range with
+        probability larger than a threshold.
+   - \(k\)-nearest neighbor query :: Decide the \(k^\prime\) nearest
+        objects whose probability sum is no less than \(k\).
+
+** Simplification -- Walking Graph
+
+   1. Hallways \(\to\) graph edges.
+   2. Crosses \(\to\) graph nodes.
+   3. Rooms \(\to\) graph nodes.
+
+
+   Rooms differ from crosses: /maximum stay duration/.
+
+   [[file:img/walking-graph.pdf]]
+
+** Simplification -- Anchor Point
+
+   - Objects are rounded to the nearest /anchor point/.
+   - Anchor points are indexed by R-tree.
+
+   [[file:img/anchor-point.pdf]]
 
 * System
 

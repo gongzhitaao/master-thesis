@@ -1,0 +1,73 @@
+\documentclass[crop,tikz,border=2px]{standalone}
+\usetikzlibrary{arrows,positioning,patterns}
+\usepackage{pgfplots}
+\usepackage{tikzsymbols}
+\pgfplotsset{compat=newest}
+
+\begin{filecontents}{edge.dat}
+  x y
+  0 0.5
+  6.5 0.5
+
+  0 2.5
+  6.5 2.5
+
+  2 0.5
+  2 2.5
+
+  4.5 0.5
+  4.5 2.5
+
+  3.25 2.5
+  3.25 1.5
+\end{filecontents}
+\begin{filecontents}{wall.dat}
+  x y
+  0 1
+  1.5 1
+  1.5 2
+  0 2
+  0 1
+
+  5 1
+  6.5 1
+  6.5 2
+  5 2
+  5 1
+\end{filecontents}
+\begin{filecontents}{room.dat}
+  x y
+  3 2
+  2.5 2
+  2.5 1
+  4 1
+  4 2
+  3.5 2
+\end{filecontents}
+
+\begin{document}
+\begin{tikzpicture}[
+  wall/.style={draw,rectangle,thin,minimum width=1.5cm,minimum
+    height=1cm,pattern=north west lines,pattern color=blue!20},
+  walkingedge/.style={dashed,thin},
+  room/.style={draw,rectangle,thin},
+  marker/.style={color=black, mark=*, mark size=0.5, mark options={solid}, smooth}]
+  \begin{axis}[xtick=\empty,ytick=\empty,ymin=-0.6,ymax=3,xmin=0,xmax=6.5,
+    enlargelimits=true,hide axis,axis equal image]
+    \draw (axis cs:0,0) rectangle (axis cs:6.5,3);
+    \addplot [wall] table[x=x, y=y] {wall.dat};
+    \addplot [walkingedge] table [x=x, y=y] {edge.dat};
+    \addplot [room] table [x=x, y=y] {room.dat};
+    \addplot [black, only marks, mark=triangle*, samples=18, mark size=1, domain=0:6.5]
+    (x,2.5);
+    \addplot [black, only marks, mark=triangle*, samples=18, mark size=1, domain=0:6.5]
+    (x,0.5);
+    \addplot [black, only marks, mark=triangle*, samples=5, mark size=1, domain=0.8:2.2]
+    (2,x);
+    \addplot [black, only marks, mark=triangle*, samples=5, mark size=1, domain=0.8:2.2]
+    (4.5,x);
+    \addplot [black, only marks, mark=triangle*, samples=3, mark size=1, domain=1.5:2.2]
+    (3.25,x);
+  \end{axis}
+\end{tikzpicture}
+\end{document}
