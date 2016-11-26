@@ -67,7 +67,7 @@ progress.
 
   Today most people spend a significant portion of their time in
   indoor spaces such as subway systems, office buildings, shopping
-  malls, convention centers, and etc.  In addition, indoor spaces are
+  malls, convention centers, etc.  In addition, indoor spaces are
   increasingly larger and more complex.  For instance, the New York
   City Subway has 469 stations and 233 miles (375 km) of routes
   cite:wikipedia2016-new.  In 2014, the subway system delivered over
@@ -241,7 +241,7 @@ progress.
 
    To overcome the above limitations, RFID data cleansing is a
    necessary step to produce consistent data to be utilized by
-   high-level applications. cite:baba2014-handling proposed a
+   high-level applications.  cite:baba2014-handling proposed a
    probabilistic distance-aware graph model to handle false negative
    in RFID readings.  The main limitation is that their generative
    model relies on the long tracking history to detect and possibly
@@ -256,7 +256,7 @@ progress.
    adapting and applying particle filters cannot be directly applied
    to our settings.  Another limitation is that they did not explore
    further utilization of the output event streams for high-level
-   applications. cite:ku2013-bayesian employed a different sampling
+   applications.  cite:ku2013-bayesian employed a different sampling
    method called Markov Chain Monte Carlo (MCMC) to infer objects'
    locations on shelves in warehouses.  Their method takes advantage
    of the spatial and temporal redundancy of raw RFID readings, and
@@ -282,9 +282,9 @@ progress.
   :END:
 
   In this section, we briefly introduce the mathematical background of
-  Bayesian filters, including the Kalman filter and particle filters,
-  and location inference based on the two filters.  Notations used in
-  this paper are summarized in Table [[tab:notation]].
+  Bayesian filters, including Kalman filter and particle filter, and
+  location inference based on the two filters.  Notations used in this
+  paper are summarized in Table [[tab:notation]].
 
   #+CAPTION: Symbolic Notations
   #+NAME: tab:notation
@@ -520,11 +520,6 @@ progress.
     rooms, the resolution of location inferences cannot be higher than
     a single room.
 
-    #+CAPTION: Example of filtering out \(k\)NN query non-candidate objects.
-    #+NAME: fig:knn-filter-non-candidates
-    #+ATTR_LaTeX: :width .5\textwidth
-    [[file:img/knn-filter-non-candidates.pdf]]
-
     Based on the above assumptions, we propose an /indoor walking
     graph model/.  The indoor walking graph \(G\langle N, E\rangle\)
     is abstracted from the regular walking patterns of people in an
@@ -540,6 +535,11 @@ progress.
     calculated by many well-known spatial network shortest path
     algorithms cite:papadias2003-query,samet2008-scalable, as shown in
     Figure [[fig:knn-filter-non-candidates]].
+
+    #+CAPTION: Example of filtering out \(k\)NN query non-candidate objects.
+    #+NAME: fig:knn-filter-non-candidates
+    #+ATTR_LaTeX: :width .5\textwidth
+    [[file:img/knn-filter-non-candidates.pdf]]
 
 *** Anchor Point Indexing Model
 
